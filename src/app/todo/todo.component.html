@@ -1,0 +1,29 @@
+<div class="columns is-flex is-justify-content-center mt-5 ml-5">
+    <div class="column is-2 ml-5">
+        <input class="input is-normal" type="text" placeholder="Add new Task" #todoName />
+
+    </div>
+    <div class="column is-1">
+        <button class="button is-success" (click)="add(todoName.value); todoName.value=''">Add</button>
+    </div>
+</div>
+<p class="has-text-centered	mt-5">In progress</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth mt-3 has-text-centered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let todo of todos">
+            <th>{{todo.id}}</th>
+            <th>{{todo.name}}</th>
+            <th>{{todo.completed === true ? 'Done' : 'Not Done' }}</th>
+            <th><button class="button  is-danger" title="delete todo" (click)="delete(todo)">Delete</button></th>
+
+        </tr>
+    </tbody>
+</table>
