@@ -32,16 +32,36 @@ export class TodoService {
   }
   addTodo(todo: Todo): Observable<Todo> {
     return this.http.post<Todo>(this.todosUrl, todo, this.httpOptions).pipe(
-      tap((newTodo: Todo) => alert(`added task ${newTodo.name} sucessfully`)),
-      catchError(this.handleError<Todo>('addHero'))
+      tap((newTodo: Todo) => alert(`Added task ${newTodo.name} sucessfully`)),
+      catchError(this.handleError<Todo>('addTodo'))
     );
   }
-  deleteHero(id: number): Observable<Todo> {
+  deleteTodo(id: number): Observable<Todo> {
     const url = `${this.todosUrl}/${id}`;
   
     return this.http.delete<Todo>(url, this.httpOptions).pipe(
-      tap(_ => console.log(`deleted task ${id} sucessfully`)),
-      catchError(this.handleError<Todo>('deleteHero'))
+      tap(_ => console.log(`Deleted task ${id} sucessfully`)),
+      catchError(this.handleError<Todo>('deleteToto'))
+    );
+  }
+  getTodo(id: number): Observable<Todo> {
+    const url = `${this.todosUrl}/${id}`;
+    return this.http.get<Todo>(url).pipe(
+      tap(_ => console.log(`fetched todo id=${id}`)),
+      catchError(this.handleError<Todo>(`getTodo id=${id}`))
+    );
+  }
+  updateTodo(todo: Todo): Observable<any> {
+    return this.http.put(this.todosUrl, todo, this.httpOptions).pipe(
+      tap(_ => console.log(`Updated todo id=${todo.id}`)),
+      catchError(this.handleError<any>('updateTodo'))
+    );
+  }
+  updateTodoComplete(id : number): Observable<any> {
+    console.log(id)
+    return this.http.put(this.todosUrl, id, this.httpOptions).pipe(
+      tap(_ => console.log(`Updated completed id=${id}`)),
+      catchError(this.handleError<any>('updateTodo'))
     );
   }
   httpOptions = {
