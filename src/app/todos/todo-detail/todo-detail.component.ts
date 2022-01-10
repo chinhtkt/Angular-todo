@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../todo.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import {Todo} from '../../todo'
+import { Todo } from '../../todo'
 
 @Component({
   selector: 'app-todo-detail',
@@ -10,7 +10,7 @@ import {Todo} from '../../todo'
   styleUrls: ['./todo-detail.component.css']
 })
 export class TodoDetailComponent implements OnInit {
-  todo: Todo | undefined
+  todo!: Todo;
 
   constructor(private route: ActivatedRoute, private todoService: TodoService, private location: Location) { }
 
@@ -21,18 +21,21 @@ export class TodoDetailComponent implements OnInit {
   getTodo(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.todoService.getTodo(id)
-      .subscribe(todo => this.todo = todo);
+      .subscribe(todo => this.todo = todo || this.goBack());
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  save(): void {
-    if(this.todo) {
-      this.todoService.updateTodo(this.todo)
-        .subscribe(() => this.goBack());
+  saveNewtodo(): void {
+    this.todo.name = this.todo.name.trim();
+    if (!this.todo.name) {
+      return alert("Please Enter Name");
+      
     }
+    this.todoService.updateTodo(this.todo)
+      .subscribe(() => this.goBack());
   }
 
 }

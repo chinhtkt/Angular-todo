@@ -7,9 +7,7 @@ import {TodoService} from '../todo.service'
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  todos: Todo[] = []
-  todoDetail?: Todo;
-  
+  todos: Todo[] = []  
 
   constructor(private todoService: TodoService) { }
 
@@ -30,17 +28,16 @@ export class TodoComponent implements OnInit {
         this.todos.push(todos);
       });
   }
-  delete(todo: Todo): void {
-    this.todos = this.todos.filter(t => t !== todo);
-    alert(`Delete ${todo.name} sucessfully`)
-    this.todoService.deleteTodo(todo.id).subscribe();
+  deleteTodo(id: number): void {
+    this.todos = this.todos.filter(t => t.id !== id);
+    alert(`Delete ${id} sucessfully`)
+    this.todoService.deleteTodo(id).subscribe();
   }
 
-  complete(todo: Todo): void {
-      let newTodo = this.todos.filter(t => t.id === todo.id)[0]
-      console.log(newTodo)
-      newTodo.completed = !newTodo.completed
-      this.todoService.updateTodoComplete(todo).subscribe();
+  completeTodo(id: number): void {
+      this.todos[id].completed = !this.todos[id].completed
+      console.log(this.todos[id])
+      this.todoService.updateTodoComplete(this.todos[id]).subscribe();
   }
   
 
