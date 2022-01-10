@@ -9,7 +9,8 @@ import { TodoComponent } from './todo/todo.component';
 import { FormsModule } from '@angular/forms';
 import { TodoDetailComponent } from './todo-detail/todo-detail.component';
 import { TodoCompletedComponent } from './todo-completed/todo-completed.component';
-
+import { RouterModule, Routes } from '@angular/router';
+import {TodoRoutingModule} from './todo-routing.module'
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { TodoCompletedComponent } from './todo-completed/todo-completed.componen
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
-  ]
+    ),
+    TodoRoutingModule
+  ],
 })
-export class TodosModule { }
+export class TodosModule {}

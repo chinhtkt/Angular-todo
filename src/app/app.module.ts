@@ -23,8 +23,7 @@ import { TodosModule } from './todos/todos.module';
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
-  ],
+    ),  ],
   providers: [],
   bootstrap: [AppComponent]
 })
