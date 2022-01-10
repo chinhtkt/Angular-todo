@@ -1,6 +1,6 @@
 export interface Todo {
     id: number;
     name: string;
-    completed: boolean;
+    completed?: boolean;
     DoB: Date;
 }

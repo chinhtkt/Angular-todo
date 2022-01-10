@@ -28,7 +28,6 @@ export class TodoComponent implements OnInit {
     const newTodo: Todo = {
       id: this.id,
       name: name,
-      completed: this.completed, 
       DoB: convertDate
     }
     if (!name && !date) { return alert('Please enter field!'); }
