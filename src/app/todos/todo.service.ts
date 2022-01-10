@@ -31,7 +31,7 @@ export class TodoService {
   }
   addTodo(todo: Todo): Observable<Todo> {
     return this.http.post<Todo>(this.todosUrl, todo, this.httpOptions).pipe(
-      tap((newTodo: Todo) => alert(`Added task ${newTodo.DoB} sucessfully`)),
+      tap((newTodo: Todo) => alert(`Added task ${newTodo.name} sucessfully`)),
       catchError(this.handleError<Todo>('addTodo'))
     );
   }

@@ -8,6 +8,8 @@ import {TodoService} from '../todo.service'
 })
 export class TodoComponent implements OnInit {
   todos: Todo[] = [];
+  id!: number;
+  completed: boolean = false;
 
   constructor(private todoService: TodoService) { }
 
@@ -21,10 +23,16 @@ export class TodoComponent implements OnInit {
   }
 
   addTodo(name: string, date: string): void {
-    const convertDate = new Date(date)
+    let convertDate = new Date(date)
     name = name.trim()
+    const newTodo: Todo = {
+      id: this.id,
+      name: name,
+      completed: this.completed, 
+      DoB: convertDate
+    }
     if (!name && !date) { return alert('Please enter field!'); }
-    this.todoService.addTodo({ convertDate} as unknown as Todo)
+    this.todoService.addTodo( newTodo  as Todo)
       .subscribe(todos => {
         this.todos.push(todos);
       });
