@@ -7,7 +7,7 @@ import {TodoService} from '../todo.service'
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  todos: Todo[] = []  
+  todos: Todo[] = [];
 
   constructor(private todoService: TodoService) { }
 
@@ -20,10 +20,11 @@ export class TodoComponent implements OnInit {
     .subscribe(todos => this.todos = todos)
   }
 
-  addTodo(name: string): void {
-    name = name.trim();
-    if (!name) { return alert('Please enter name!'); }
-    this.todoService.addTodo({ name } as Todo)
+  addTodo(name: string, date: string): void {
+    const convertDate = new Date(date)
+    name = name.trim()
+    if (!name && !date) { return alert('Please enter field!'); }
+    this.todoService.addTodo({ convertDate} as unknown as Todo)
       .subscribe(todos => {
         this.todos.push(todos);
       });

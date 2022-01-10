@@ -1,10 +1,11 @@
 <div class="columns is-flex is-justify-content-center mt-5 ml-5">
     <div class="column is-2 ml-5">
         <input class="input is-normal" type="text" placeholder="Add new Task" #todoName />
+        <input class="input is-normal mt-3" type="date" #todoDate />
 
     </div>
-    <div class="column is-1">
-        <button class="button is-success" (click)="addTodo(todoName.value); todoName.value=''">Add</button>
+    <div class="column is-1 mt-5">
+        <button class="button is-success" (click)="addTodo(todoName.value, todoDate.value ); todoName.value=''; todoDate.value='' ">Add</button>
     </div>
 </div>
 <div class="container">
@@ -14,6 +15,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Date</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -21,6 +23,7 @@
             <tr *ngFor="let todo of todos">
                 <th>{{todo.id}}</th>
                 <th class="{{(todo.completed) ? 'done': ''}}">{{todo.name}}</th>
+                <th>{{todo.DoB | date: "MMMM d, y"}}</th>
                 <th>
                     <label class="checkbox mr-3 mt-3">
                         <input type="checkbox" [checked]='todo.completed' (click)="completeTodo(todo.id)">

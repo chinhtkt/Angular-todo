@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {Todo} from '../todo';
-import {TODOS} from '../mock-todos'
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -32,7 +31,7 @@ export class TodoService {
   }
   addTodo(todo: Todo): Observable<Todo> {
     return this.http.post<Todo>(this.todosUrl, todo, this.httpOptions).pipe(
-      tap((newTodo: Todo) => alert(`Added task ${newTodo.name} sucessfully`)),
+      tap((newTodo: Todo) => alert(`Added task ${newTodo.DoB} sucessfully`)),
       catchError(this.handleError<Todo>('addTodo'))
     );
   }
