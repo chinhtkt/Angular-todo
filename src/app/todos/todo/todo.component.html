@@ -4,7 +4,7 @@
 
     </div>
     <div class="column is-1">
-        <button class="button is-success" (click)="add(todoName.value); todoName.value=''">Add</button>
+        <button class="button is-success" (click)="addTodo(todoName.value); todoName.value=''">Add</button>
     </div>
 </div>
 <div class="container">
@@ -24,14 +24,14 @@
                 <th>
                     <label class="checkbox mr-3 mt-3">
                         <input type="checkbox" [checked]='todo.completed' (click)="completeTodo(todo.id)">
-                      </label>
+                    </label>
                     <button routerLink="/todos-detail/{{todo.id}}" class="button is-info mr-3"
                         title="edit todo">Edit</button>
                     <button class="button  is-danger" title="delete todo" (click)="deleteTodo(todo.id)">Delete</button>
                 </th>
             </tr>
         </tbody>
-        </table>
+    </table>
 </div>
-    <h2 class="has-text-centered mt-5 is-size-3">Completed</h2>
-    <app-todo-completed *ngFor="let todo of todos" [todo]="todo"></app-todo-completed>
+<h2 class="has-text-centered mt-5 is-size-3">Completed</h2>
+<app-todo-completed *ngFor="let todo of todos" [todo]="todo"></app-todo-completed>

@@ -20,7 +20,7 @@ export class TodoComponent implements OnInit {
     .subscribe(todos => this.todos = todos)
   }
 
-  add(name: string): void {
+  addTodo(name: string): void {
     name = name.trim();
     if (!name) { return alert('Please enter name!'); }
     this.todoService.addTodo({ name } as Todo)
@@ -33,12 +33,8 @@ export class TodoComponent implements OnInit {
     alert(`Delete ${id} sucessfully`)
     this.todoService.deleteTodo(id).subscribe();
   }
-
   completeTodo(id: number): void {
       this.todos[id].completed = !this.todos[id].completed
-      console.log(this.todos[id])
       this.todoService.updateTodoComplete(this.todos[id]).subscribe();
   }
-  
-
 }
