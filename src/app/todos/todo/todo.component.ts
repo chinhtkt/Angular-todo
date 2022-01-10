@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Todo} from '../todo'
+import {Todo} from '../../todo'
 import {TodoService} from '../todo.service'
 @Component({
   selector: 'app-todo',
@@ -36,11 +36,11 @@ export class TodoComponent implements OnInit {
     this.todoService.deleteTodo(todo.id).subscribe();
   }
 
-  complete(id: number): void {
-      let newTodo = this.todos.filter(t => t.id === id)[0]
+  complete(todo: Todo): void {
+      let newTodo = this.todos.filter(t => t.id === todo.id)[0]
       console.log(newTodo)
       newTodo.completed = !newTodo.completed
-      this.todoService.updateTodoComplete(id).subscribe();
+      this.todoService.updateTodoComplete(todo).subscribe();
   }
   
 

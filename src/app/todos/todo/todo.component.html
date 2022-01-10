@@ -23,7 +23,7 @@
                 <th class="{{(todo.completed) ? 'done': ''}}">{{todo.name}}</th>
                 <th>
                     <label class="checkbox mr-3 mt-3">
-                        <input type="checkbox" [checked]='todo.completed' (click)="complete(todo.id)">
+                        <input type="checkbox" [checked]='todo.completed' (click)="complete(todo)">
                       </label>
                     <button routerLink="/todos-detail/{{todo.id}}" class="button is-info mr-3"
                         title="edit todo">Edit</button>

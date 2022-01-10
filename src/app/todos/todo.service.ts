@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Todo} from './todo';
-import {TODOS} from './mock-todos'
+import {Todo} from '../todo';
+import {TODOS} from '../mock-todos'
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -52,15 +52,15 @@ export class TodoService {
     );
   }
   updateTodo(todo: Todo): Observable<any> {
-    return this.http.put(this.todosUrl, todo, this.httpOptions).pipe(
+    return this.http.put<Todo>(this.todosUrl, todo, this.httpOptions).pipe(
       tap(_ => console.log(`Updated todo id=${todo.id}`)),
       catchError(this.handleError<any>('updateTodo'))
     );
   }
-  updateTodoComplete(id : number): Observable<any> {
-    console.log(id)
-    return this.http.put(this.todosUrl, id, this.httpOptions).pipe(
-      tap(_ => console.log(`Updated completed id=${id}`)),
+  updateTodoComplete(todo: Todo): Observable<any> {
+    const url = `${this.todosUrl}/${todo.id}`;
+    return this.http.put<Todo>(url, todo, this.httpOptions).pipe(
+      tap(_ => console.log(`Updated completed id=${todo.id}`)),
       catchError(this.handleError<any>('updateTodo'))
     );
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import {Todo} from '../todo'
+import {Todo} from '../../todo'
 import {TodoService} from '../todo.service'
 @Component({
   selector: 'app-todo-completed',
