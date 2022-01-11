@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { TodosModule } from './todos/todo/todo.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TodosModule } from './todos/todo/todo.module';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     ),  ],
