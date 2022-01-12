@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { TodoDetailComponent } from '../todo-detail/todo-detail.component';
 import { TodoCompletedComponent } from '../todo-completed/todo-completed.component';
 import {TodoRoutingModule} from './todo-routing.module'
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import {TodoRoutingModule} from './todo-routing.module'
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }

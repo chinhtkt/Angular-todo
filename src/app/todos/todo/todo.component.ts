@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Todo} from '../../todo'
 import {TodoService} from '../todo.service'
+import { FormGroup, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -8,7 +9,13 @@ import {TodoService} from '../todo.service'
 })
 export class TodoComponent implements OnInit {
   todos: Todo[] = [];
-  id!: number;
+  
+  
+  id!: number
+  todoForm = new FormGroup({
+    task: new FormControl(''),
+    date: new FormControl(''),
+  })
 
   constructor(private todoService: TodoService) { }
 
@@ -21,19 +28,30 @@ export class TodoComponent implements OnInit {
     .subscribe(todos => this.todos = todos)
   }
 
-  addTodo(name: string, date: string): void {
-    let convertDate = new Date(date)
-    name = name.trim()
+  addTodo(): void {
     const newTodo: Todo = {
       id: this.id,
-      name: name,
-      DoB: convertDate
+      name: this.todoForm.value['task'],
+      DoB: new Date(this.todoForm.value['date'])
     }
-    if (!name && !date) { return alert('Please enter field!'); }
+    console.log(newTodo)
+    if (!newTodo.name || !newTodo.DoB) { return alert('Please enter field!'); }
     this.todoService.addTodo( newTodo  as Todo)
       .subscribe(todos => {
         this.todos.push(todos);
       });
+    // let convertDate = new Date(date)
+    // name = name.trim()
+    // const newTodo: Todo = {
+    //   id: this.id,
+    //   name: name,
+    //   DoB: convertDate
+    // }
+    // if (!name && !date) { return alert('Please enter field!'); }
+    // this.todoService.addTodo( newTodo  as Todo)
+    //   .subscribe(todos => {
+    //     this.todos.push(todos);
+    //   });
   }
   deleteTodo(id: number): void {
     this.todos = this.todos.filter(t => t.id !== id);
