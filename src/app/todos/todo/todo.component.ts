@@ -9,7 +9,6 @@ import {TodoService} from '../todo.service'
 export class TodoComponent implements OnInit {
   todos: Todo[] = [];
   id!: number;
-  completed: boolean = false;
 
   constructor(private todoService: TodoService) { }
 
