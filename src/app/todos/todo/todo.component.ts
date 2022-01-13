@@ -57,6 +57,7 @@ export class TodoComponent implements OnInit {
   }
   completeTodo(id: number): void {
       this.todos[id].completed = !this.todos[id].completed
+      console.log(this.todos[id])
       this.todoService.updateTodoComplete(this.todos[id]).subscribe();
   }
 }
