@@ -22,11 +22,5 @@ export class TodoCompletedComponent implements OnInit {
   }
   
 
-  delete(completedtodo: Todo): void {
-    this.todos = this.todos.filter(t => t !== completedtodo);
-    alert(`delete ${completedtodo.name} sucessfully`)
-    this.todoService.deleteTodo(completedtodo.id).subscribe();
-  }
-
 
 }

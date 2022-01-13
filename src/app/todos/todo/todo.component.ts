@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Todo} from '../../todo'
 import {TodoService} from '../todo.service'
 import { FormGroup, FormControl } from '@angular/forms';
+import { Validators } from '@angular/forms';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -30,7 +31,6 @@ export class TodoComponent implements OnInit {
 
   addTodo(): void {
     const newTodo: Todo = {
-      id: this.id,
       name: this.todoForm.value['task'],
       DoB: new Date(this.todoForm.value['date'])
     }
@@ -40,26 +40,14 @@ export class TodoComponent implements OnInit {
       .subscribe(todos => {
         this.todos.push(todos);
       });
-    // let convertDate = new Date(date)
-    // name = name.trim()
-    // const newTodo: Todo = {
-    //   id: this.id,
-    //   name: name,
-    //   DoB: convertDate
-    // }
-    // if (!name && !date) { return alert('Please enter field!'); }
-    // this.todoService.addTodo( newTodo  as Todo)
-    //   .subscribe(todos => {
-    //     this.todos.push(todos);
-    //   });
   }
-  deleteTodo(id: number): void {
+  deleteTodo(id: number | undefined): void {
     this.todos = this.todos.filter(t => t.id !== id);
     alert(`Delete ${id} sucessfully`)
-    this.todoService.deleteTodo(id).subscribe();
+    this.todoService.deleteTodo(id!).subscribe();
   }
-  completeTodo(id: number): void {
-      this.todos[id].completed = !this.todos[id].completed
-      this.todoService.updateTodoComplete(this.todos[id]).subscribe();
+  completeTodo(id: number | undefined): void {
+      this.todos[id!].completed = !this.todos[id!].completed
+      this.todoService.updateTodoComplete(this.todos[id!]).subscribe();
   }
 }
