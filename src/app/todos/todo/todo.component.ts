@@ -1,23 +1,43 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {Todo} from '../../todo'
-import {TodoService} from '../todo.service'
+import * as ToDoActions from '../state/todo.action'
+import ToDoState from '../../todos/state/todo.state';
+import {TodoService} from '../state/todo.httpservice'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { getTodos } from '../state/todo.selector';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
+
+  todos$: Observable<Todo[]>;
+  ToDoSubscription: Subscription;
   todos: Todo[] = [];
-  todoForm!: FormGroup;
+  todoForm: FormGroup;
   submitted = false;
+  id: number
+  todoError: Error | null | undefined
+
+
+  constructor(private fb: FormBuilder, private store: Store<{ todos: ToDoState }>) { 
+    this.todos$ = store.select(getTodos);
   
-  id!: number
-
-
-  constructor(private todoService: TodoService, private fb: FormBuilder,) { }
+  }
 
   ngOnInit(): void {
+    // this.ToDoSubscription = this.todos$.pipe(
+    //   map(x => {
+    //     debugger;
+    //     this.todos = x.ToDos;
+    //     this.todoError = x.ToDoError
+    //   })
+    // ).subscribe();
+
     this.todoForm = this.fb.group(
       {
       task: ['', [Validators.required]],
@@ -26,10 +46,15 @@ export class TodoComponent implements OnInit {
     this.getTodos();
   }
 
-  getTodos(): void {
-    this.todoService.getTodos()
-    .subscribe(todos => this.todos = todos)
+  ngOnDestroy() {
+    if (this.ToDoSubscription) {
+      this.ToDoSubscription.unsubscribe();
+    }
   }
+
+  getTodos(): void {
+    this.store.dispatch(ToDoActions.BeginGetToDoAction());
+   }
 
   addTodo(): void {
     
@@ -37,25 +62,21 @@ export class TodoComponent implements OnInit {
       name: this.todoForm.value['task'],
       DoB: new Date(this.todoForm.value['date'])
     }
+    this.todoForm.reset();
     console.log(newTodo)
-    if (!newTodo.name || !newTodo.DoB) { return alert('Please enter field!'); }
-    this.todoService.addTodo( newTodo  as Todo)
-      .subscribe(todos => {
-        this.todos.push(todos);
-      });
+    this.store.dispatch(ToDoActions.BeginCreateTodoAction({payload: newTodo}))
   }
 
   get f() {
     return this.todoForm.controls
   }
 
-  deleteTodo(id: number): void {
-    this.todos = this.todos.filter(t => t.id !== id);
-    alert(`Delete ${id} sucessfully`)
-    this.todoService.deleteTodo(id!).subscribe();
+  deleteTodo(SelectedId: number): void {
+    console.log(this.todos$);
+    this.store.dispatch(ToDoActions.BeginDeleteTodoAction({id: SelectedId}))
   }
-  completeTodo(id: number | undefined): void {
-      this.todos[id!].completed = !this.todos[id!].completed
-      this.todoService.updateTodoComplete(this.todos[id!]).subscribe();
-  }
+  // completeTodo(id: number | undefined): void {
+  //     this.todos[id!].completed = !this.todos[id!].completed
+  //     this.todoService.updateTodoComplete(this.todos[id!]).subscribe();
+  // }
 }

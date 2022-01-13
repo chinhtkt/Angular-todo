@@ -8,6 +8,10 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { TodosModule } from './todos/todo/todo.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import {ToDoReducer} from './todos/state/todo.reducer';
+import { TodoEffects } from './todos/state/todo.effects';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    ),  ],
+    ),
+    StoreModule.forRoot({todos: ToDoReducer}),
+    EffectsModule.forRoot([TodoEffects]),  ],
   providers: [],
   bootstrap: [AppComponent]
 })
