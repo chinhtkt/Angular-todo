@@ -44,16 +44,12 @@ export class TodoComponent implements OnInit {
         this.todos.push(todos);
       });
   }
-<<<<<<< HEAD
-  deleteTodo(id: number | undefined): void {
-=======
 
   get f() {
     return this.todoForm.controls
   }
 
   deleteTodo(id: number): void {
->>>>>>> aaf1bc30d034f1ee1e7c29af13e41118f210d779
     this.todos = this.todos.filter(t => t.id !== id);
     alert(`Delete ${id} sucessfully`)
     this.todoService.deleteTodo(id!).subscribe();
