@@ -11,6 +11,10 @@ import { TodoDetailComponent } from '../todo-detail/todo-detail.component';
 import { TodoCompletedComponent } from '../todo-completed/todo-completed.component';
 import {TodoRoutingModule} from './todo-routing.module'
 import { ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { ToDoReducer } from '../state/todo.reducer';
+import { TodoEffects } from '../state/todo.effects';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,8 @@ import { ReactiveFormsModule } from '@angular/forms';
       InMemoryDataService, { dataEncapsulation: false }
     ),
     TodoRoutingModule,
-    CommonModule
-  ],
+    CommonModule,
+    StoreModule.forRoot({todos: ToDoReducer}),
+    EffectsModule.forRoot([TodoEffects]),  ],
 })
 export class TodosModule {}

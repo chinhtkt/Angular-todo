@@ -5,41 +5,37 @@ import { Location } from '@angular/common';
 import { Todo } from '../../todo'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import ToDoState from '../state/todo.state';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { map, Observable, Subscription } from 'rxjs';
 import * as ToDoActions from '../state/todo.action'
+import { getSelectedTodo } from '../state/todo.selector';
 @Component({
   selector: 'app-todo-detail',
   templateUrl: './todo-detail.component.html',
   styleUrls: ['./todo-detail.component.css']
 })
 export class TodoDetailComponent implements OnInit {
-  todos$: Observable<ToDoState>;
+  todo$: Observable<Todo | undefined>;
+  ToDoSubscription: Subscription;
   todo!: Todo;
   todoForm!: FormGroup;
   submitted = false;
 
-  constructor(private route: ActivatedRoute, private todoService: TodoService, private location: Location, private fb: FormBuilder, private store: Store<{ todos: ToDoState }>) {
-    this.todos$ = store.select('todos')
+  constructor(private route: ActivatedRoute, private todoService: TodoService, private location: Location, private fb: FormBuilder, private store: Store<ToDoState>) {
    }
 
   ngOnInit(): void {
+    this.store.dispatch(ToDoActions.BeginGetTodoAction({id: Number(this.route.snapshot.paramMap.get('id'))}))
+    this.todo$ = this.store.pipe(select(getSelectedTodo))
+    this.ToDoSubscription = this.todo$.pipe(
+      map(x => {
+        console.log(x)
+      })
+    ).subscribe();
     this.todoForm = this.fb.group(
       {
       task: ['', [Validators.required]],
     })
-    this.getTodo();
-
-  }
-
-  getTodo(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.todoService.getTodo(id)
-      .subscribe((todo) => { this.todo = todo || this.goBack()
-        this.todoForm.patchValue({
-          task: todo.name
-        })
-      });
   }
 
 
@@ -56,6 +52,7 @@ export class TodoDetailComponent implements OnInit {
     }
     console.log(newTask)
     this.store.dispatch(ToDoActions.BeginEditToDoAction({payload: newTask}));
+    this.goBack();
   }
 
 }

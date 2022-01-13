@@ -7,26 +7,31 @@ import { state } from '@angular/animations';
 const initialState = initializeState();
 
 const reducer = createReducer(
-    initialState,
-    on(ToDoActions.SuccessGetToDoAction, (state: ToDoState, { payload }) => {
+  initialState,
+  on(ToDoActions.SuccessGetToDosAction, (state: ToDoState, { payload }) => {
     return { ...state, ToDos: payload, ToDoError: null };
   }),
-    on(ToDoActions.SuccessCreateToDoAction, (state: ToDoState, {payload}) => {
-        return{ ...state, ToDos: [...state.ToDos, payload], ToDoError: null}
-    }),
-    on(ToDoActions.SuccessDeleteToDoAction, (state: ToDoState, {id}) => {
-        return {...state, ToDos: [...state.ToDos.filter(x => x.id !== id)], ToDoError: null} 
-    }   
-    ),
-    on(ToDoActions.SuccessEditToDoAction, (state: ToDoState, {payload}) => {
-        return{ ...state, ToDos: [...state.ToDos, payload], ToDoError: null}
-    })
-)
-
+  on(ToDoActions.SuccessGetTodoAction, (state: ToDoState, { payload }) => {
+    return { ...state, ToDo: payload, ToDoError: null };
+  }),
+  on(ToDoActions.SuccessCreateToDoAction, (state: ToDoState, { payload }) => {
+    return { ...state, ToDos: [...state.ToDos, payload], ToDoError: null };
+  }),
+  on(ToDoActions.SuccessDeleteToDoAction, (state: ToDoState, { id }) => {
+    return {
+      ...state,
+      ToDos: [...state.ToDos.filter((x) => x.id !== id)],
+      ToDoError: null,
+    };
+  }),
+  on(ToDoActions.SuccessEditToDoAction, (state: ToDoState, { payload }) => {
+    return { ...state, ToDos: [...state.ToDos, payload], ToDoError: null };
+  })
+);
 
 export function ToDoReducer(
-    state: ToDoState | undefined,
-    action: Action
+  state: ToDoState | undefined,
+  action: Action
 ): ToDoState {
-    return reducer(state,action)
+  return reducer(state, action);
 }

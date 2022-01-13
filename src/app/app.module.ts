@@ -27,8 +27,7 @@ import { TodoEffects } from './todos/state/todo.effects';
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     ),
-    StoreModule.forRoot({todos: ToDoReducer}),
-    EffectsModule.forRoot([TodoEffects]),  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

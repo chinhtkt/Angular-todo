@@ -53,7 +53,7 @@ export class TodoComponent implements OnInit {
   }
 
   getTodos(): void {
-    this.store.dispatch(ToDoActions.BeginGetToDoAction());
+    this.store.dispatch(ToDoActions.BeginGetToDosAction());
    }
 
   addTodo(): void {

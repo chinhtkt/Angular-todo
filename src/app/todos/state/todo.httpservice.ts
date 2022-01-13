@@ -19,7 +19,7 @@ export class TodoService {
     const url = `${this.todosUrl}/${id}`;
     return this.http.get<Todo>(url).pipe(
       tap(_ => console.log(`fetched todo id=${id}`)),
-      catchError(this.handleError<Todo>(`getTodo id=${id}`))
+      // catchError(this.handleError<Todo>(`getTodo id=${id}`))
     );
   }
   private handleError<T>(operation = 'operation', result?: T) {

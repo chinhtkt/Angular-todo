@@ -18,9 +18,9 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody *ngIf="todos$| async as listTodo">
+        <tbody *ngIf="todos$| async as listTodos">
             
-            <tr *ngFor="let todo of listTodo">
+            <tr *ngFor="let todo of listTodos">
                 <th>{{todo.id}}</th>
                 <th class="{{(todo.completed) ? 'done': ''}}">{{todo.name}}</th>
                 <th>{{todo.DoB | date: "MMMM d, y"}}</th>
@@ -37,4 +37,6 @@
     </table>
 </div>
 <h2 class="has-text-centered mt-5 is-size-3">Completed</h2>
-<app-todo-completed *ngFor="let todo of todos" [todo]="todo"></app-todo-completed>
+<div *ngIf="todos$| async as listTodos">
+    <app-todo-completed *ngFor="let todo of listTodos" [todo]="todo"></app-todo-completed>
+</div>
