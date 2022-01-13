@@ -1,27 +1,45 @@
 <div *ngIf="todo">
-    <h2 class="is-flex is-justify-content-center mt-5">{{todo.name | uppercase}} Details</h2>
-    <div class="columns">
-        <div class="column is-12 is-flex is-justify-content-center">
-            <table class="table is-bordered is-striped is-narrow is-hoverable mt-5 has-text-centered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class=>
-                            <div class="mt-4">{{todo.id}}</div>
-                        </th>
-                        <th class="m-2"><input class="input is-normal mr-2 mt-2" id="todo-name" [(ngModel)]="todo.name"
-                                placeholder="Todo name" /></th>
-                        <th><button class="m-2 button is-success" (click)="saveNewtodo()">Save</button><button
-                                class="m-2 button is-link" (click)="goBack()">Go back</button></th>
-                    </tr>
-                </tbody>
+  <h2 class="is-flex is-justify-content-center mt-5">
+    {{ todo.name | uppercase }} Details
+  </h2>
+  <div class="columns">
+    <div class="column is-12 is-flex is-justify-content-center">
+        <form [formGroup]="todoForm" (ngSubmit)="saveNewtodo()">
+            <table
+              class="table is-bordered is-striped is-narrow is-hoverable mt-5 has-text-centered"
+            >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr>
+                  <th>
+                    <div class="mt-4">{{ todo.id }}</div>
+                  </th>
+                  <th class="m-2">
+                    <input
+                      class="input is-normal mr-2 mt-2"
+                      id="todo-name"
+                      formControlName="task"
+                      placeholder="Todo name"
+                    />
+                  </th>
+                  <th>
+                    <button class="m-2 button is-success" >
+                      Save</button
+                    ><button class="m-2 button is-link" (click)="goBack()">
+                      Go back
+                    </button>
+                  </th>
+                </tr>
+              </tbody>
             </table>
-        </div>
+
+        </form>
     </div>
+  </div>
 </div>

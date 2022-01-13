@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Todo} from '../../todo'
 import {TodoService} from '../todo.service'
-import { FormGroup, FormControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -10,17 +9,20 @@ import { Validators } from '@angular/forms';
 })
 export class TodoComponent implements OnInit {
   todos: Todo[] = [];
-  
+  todoForm!: FormGroup;
+  submitted = false;
   
   id!: number
-  todoForm = new FormGroup({
-    task: new FormControl(''),
-    date: new FormControl(''),
-  })
 
-  constructor(private todoService: TodoService) { }
+
+  constructor(private todoService: TodoService, private fb: FormBuilder,) { }
 
   ngOnInit(): void {
+    this.todoForm = this.fb.group(
+      {
+      task: ['', [Validators.required]],
+      date: ['', [Validators.required]],
+    })
     this.getTodos();
   }
 
@@ -30,6 +32,7 @@ export class TodoComponent implements OnInit {
   }
 
   addTodo(): void {
+    
     const newTodo: Todo = {
       name: this.todoForm.value['task'],
       DoB: new Date(this.todoForm.value['date'])
@@ -41,7 +44,16 @@ export class TodoComponent implements OnInit {
         this.todos.push(todos);
       });
   }
+<<<<<<< HEAD
   deleteTodo(id: number | undefined): void {
+=======
+
+  get f() {
+    return this.todoForm.controls
+  }
+
+  deleteTodo(id: number): void {
+>>>>>>> aaf1bc30d034f1ee1e7c29af13e41118f210d779
     this.todos = this.todos.filter(t => t.id !== id);
     alert(`Delete ${id} sucessfully`)
     this.todoService.deleteTodo(id!).subscribe();
