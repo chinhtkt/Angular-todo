@@ -1,21 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoService } from '../todo.service';
+import { TodoService } from '../state/todo.httpservice';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Todo } from '../../todo'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import ToDoState from '../state/todo.state';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as ToDoActions from '../state/todo.action'
 @Component({
   selector: 'app-todo-detail',
   templateUrl: './todo-detail.component.html',
   styleUrls: ['./todo-detail.component.css']
 })
 export class TodoDetailComponent implements OnInit {
+  todos$: Observable<ToDoState>;
   todo!: Todo;
   todoForm!: FormGroup;
   submitted = false;
 
-  constructor(private route: ActivatedRoute, private todoService: TodoService, private location: Location, private fb: FormBuilder) {
-    
+  constructor(private route: ActivatedRoute, private todoService: TodoService, private location: Location, private fb: FormBuilder, private store: Store<{ todos: ToDoState }>) {
+    this.todos$ = store.select('todos')
    }
 
   ngOnInit(): void {
@@ -50,8 +55,7 @@ export class TodoDetailComponent implements OnInit {
       DoB: this.todo.DoB,
     }
     console.log(newTask)
-    this.todoService.updateTodo(this.todo.id , newTask)
-      .subscribe(() => this.goBack());
+    this.store.dispatch(ToDoActions.BeginEditToDoAction({payload: newTask}));
   }
 
 }

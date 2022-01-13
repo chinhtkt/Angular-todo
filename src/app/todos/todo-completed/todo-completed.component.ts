@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import {Todo} from '../../todo'
-import {TodoService} from '../todo.service'
+import {TodoService} from '../state/todo.httpservice'
 @Component({
   selector: 'app-todo-completed',
   templateUrl: './todo-completed.component.html',
@@ -21,12 +21,6 @@ export class TodoCompletedComponent implements OnInit {
     .subscribe(todos => this.todos = todos)
   }
   
-
-  delete(completedtodo: Todo): void {
-    this.todos = this.todos.filter(t => t !== completedtodo);
-    alert(`delete ${completedtodo.name} sucessfully`)
-    this.todoService.deleteTodo(completedtodo.id).subscribe();
-  }
 
 
 }

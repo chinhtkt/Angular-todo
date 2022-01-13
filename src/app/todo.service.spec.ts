@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TodoService } from './todos/todo.service';
+import { TodoService } from './todos/state/todo.httpservice';
 
 describe('TodoService', () => {
   let service: TodoService;

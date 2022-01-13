@@ -18,18 +18,19 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr *ngFor="let todo of todos">
+        <tbody *ngIf="todos$| async as listTodo">
+            
+            <tr *ngFor="let todo of listTodo">
                 <th>{{todo.id}}</th>
                 <th class="{{(todo.completed) ? 'done': ''}}">{{todo.name}}</th>
                 <th>{{todo.DoB | date: "MMMM d, y"}}</th>
                 <th>
                     <label class="checkbox mr-3 mt-3">
-                        <input type="checkbox" [checked]='todo.completed' (click)="completeTodo(todo.id)">
+                        <!-- <input type="checkbox" [checked]='todo.completed' (click)="completeTodo(todo.id)"> -->
                     </label>
                     <button routerLink="/todos-detail/{{todo.id}}" class="button is-info mr-3"
                         title="edit todo">Edit</button>
-                    <button class="button  is-danger" title="delete todo" (click)="deleteTodo(todo.id)">Delete</button>
+                    <button class="button  is-danger" title="delete todo" (click)="deleteTodo(todo.id!)">Delete</button>
                 </th>
             </tr>
         </tbody>
