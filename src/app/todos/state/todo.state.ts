@@ -1,7 +1,7 @@
 import { Todo } from '../../todo';
 
-export default class ToDoState {
-  Todo: Todo | undefined
+export default interface ToDoState {
+  Todo?: Todo
   ToDos: Array<Todo>
   ToDoError: Error | null
 }

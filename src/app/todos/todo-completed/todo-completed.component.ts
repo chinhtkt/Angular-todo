@@ -13,14 +13,10 @@ export class TodoCompletedComponent implements OnInit {
   @Output()
 
   ngOnInit(): void {
-    this.getTodos();
   }
 
-  getTodos() {
-    this.todoService.getTodos()
-    .subscribe(todos => this.todos = todos)
-  }
-  
+
+
 
 
 }

@@ -12,7 +12,8 @@ const reducer = createReducer(
     return { ...state, ToDos: payload, ToDoError: null };
   }),
   on(ToDoActions.SuccessGetTodoAction, (state: ToDoState, { payload }) => {
-    return { ...state, ToDo: payload, ToDoError: null };
+    console.log(payload)
+    return { ...state, Todo: payload, ToDoError: null };
   }),
   on(ToDoActions.SuccessCreateToDoAction, (state: ToDoState, { payload }) => {
     return { ...state, ToDos: [...state.ToDos, payload], ToDoError: null };
@@ -26,6 +27,15 @@ const reducer = createReducer(
   }),
   on(ToDoActions.SuccessEditToDoAction, (state: ToDoState, { payload }) => {
     return { ...state, ToDos: [...state.ToDos, payload], ToDoError: null };
+  }),
+  on(ToDoActions.SuccessEditCompletedAction, (state: ToDoState, {payload}) => {
+    state = { ...state, ToDos: [...state.ToDos, payload], ToDoError: null };
+    return state;
+  }),
+  on(ToDoActions.BeginEditCompletedAction, (state: ToDoState, {payload}) => {
+debugger;
+state =  { ...state, ToDos: [...state.ToDos.filter((x) => x.id !== payload.id), payload], ToDoError: null };
+    return state;
   })
 );
 

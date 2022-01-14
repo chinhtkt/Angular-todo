@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Todo } from 'src/app/todo';
 import * as ToDoActions from './todo.action';
 import { TodoService } from './todo.httpservice';
@@ -27,18 +27,20 @@ export class TodoEffects {
             )
         )
     );
-    GetTodo$: Observable<Action> = createEffect(() => 
+    GetTodo$: Observable<Action> = createEffect(() =>
        this.action$.pipe(
            ofType(ToDoActions.BeginGetTodoAction),
-           mergeMap(action => 
-                this.todoService.getTodo(action.id).pipe(
-                    map((data: Todo) => {
-                        return ToDoActions.SuccessGetTodoAction({payload: data});
-                    }),
-                    catchError((error: Error) => {
-                        return of(ToDoActions.ErrorToDoAction(error))
-                    })
-                )
+           switchMap((action: any) => {
+             console.log(action)
+            return this.todoService.getTodo(action.id).pipe(
+                   map((data: Todo) => {
+                     console.log(data)
+                       return ToDoActions.SuccessGetTodoAction({ payload: data });
+                   }),
+                   catchError((error: Error) => {
+                       return of(ToDoActions.ErrorToDoAction(error));
+                   })
+            )}
             )
        )
     )
@@ -54,19 +56,19 @@ export class TodoEffects {
                 catchError((error: Error) => {
                     return of(ToDoActions.ErrorToDoAction(error))
                 })
-            )    
+            )
         )
      )
     )
     DeleteToDo$: Observable<Action> = createEffect(() =>
       this.action$.pipe(
           ofType(ToDoActions.BeginDeleteTodoAction),
-          mergeMap(action => 
+          mergeMap(action =>
             this.todoService.deleteTodo(action.id).pipe(
                 map(() => {
                     return ToDoActions.SuccessDeleteToDoAction({id: action.id})
                 })
-            )    
+            )
         )
       )
     )
@@ -76,12 +78,23 @@ export class TodoEffects {
             mergeMap(action =>
                 this.todoService.updateTodo(action.payload).pipe(
                     map((data: Todo) => {
+                      console.log(data)
                         return ToDoActions.SuccessEditToDoAction({payload: data})
                     })
                 )
             )
         )
     )
-
-    
+//     EditCompleteToDo$: Observable<Action> = createEffect(() =>
+//     this.action$.pipe(
+//         ofType(ToDoActions.BeginEditCompletedAction),
+//         mergeMap(action =>
+//             this.todoService.updateTodoComplete(action.payload).pipe(
+//                 map((data: Todo) => {
+//                     return ToDoActions.SuccessEditToDoAction({payload: data})
+//                 })
+//             )
+//         )
+//     )
+// )
 }
