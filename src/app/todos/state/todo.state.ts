@@ -2,11 +2,12 @@ import { Todo } from '../../todo';
 
 export default interface ToDoState {
   Todo?: Todo
-  ToDos: Array<Todo>
+  ToDos: Todo[]
   ToDoError: Error | null
+  isCompleted: boolean
 }
 
 export const initializeState = (): ToDoState => {
-  return { ToDos: Array<Todo>(), Todo: undefined, ToDoError: null};
+  return { ToDos: Array<Todo>(), Todo: undefined, isCompleted : false, ToDoError: null};
 };
 

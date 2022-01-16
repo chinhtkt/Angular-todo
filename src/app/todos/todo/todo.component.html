@@ -18,9 +18,9 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody >
             <tr *ngFor="let todo of toDo">
-                <!-- <th>{{todo.id}}</th> -->
+                <th>{{todo.id}}</th>
                 <th class="{{(todo.completed) ? 'done': ''}}">{{todo.name}}</th>
                 <th>{{todo.DoB | date: "MMMM d, y"}}</th>
                 <th>

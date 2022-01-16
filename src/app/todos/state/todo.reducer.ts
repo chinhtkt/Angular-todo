@@ -21,22 +21,32 @@ const reducer = createReducer(
   on(ToDoActions.SuccessDeleteToDoAction, (state: ToDoState, { id }) => {
     return {
       ...state,
-      ToDos: [...state.ToDos.filter((x) => x.id !== id)],
+      ToDos: [...state.ToDos.filter((x: any) => x.id !== id)],
       ToDoError: null,
     };
   }),
   on(ToDoActions.SuccessEditToDoAction, (state: ToDoState, { payload }) => {
     return { ...state, ToDos: [...state.ToDos, payload], ToDoError: null };
   }),
-  on(ToDoActions.SuccessEditCompletedAction, (state: ToDoState, {payload}) => {
-    state = { ...state, ToDos: [...state.ToDos, payload], ToDoError: null };
-    return state;
-  }),
-  on(ToDoActions.BeginEditCompletedAction, (state: ToDoState, {payload}) => {
-debugger;
-state =  { ...state, ToDos: [...state.ToDos.filter((x) => x.id !== payload.id), payload], ToDoError: null };
-    return state;
-  })
+  on(
+    ToDoActions.SuccessEditCompletedAction,
+    (state: ToDoState, { payload }) => {
+      state = {
+        ...state,
+        ToDos: [
+          ...state.ToDos.map((x: Todo) => {
+            let convertItem = JSON.parse(JSON.stringify(x));
+            if (convertItem.id == payload.id) {
+              convertItem.completed = !convertItem.completed;
+            }
+            return convertItem;
+          }),
+        ],
+        ToDoError: null,
+      };
+      return state;
+    }
+  )
 );
 
 export function ToDoReducer(

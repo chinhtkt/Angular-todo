@@ -31,10 +31,8 @@ export class TodoEffects {
        this.action$.pipe(
            ofType(ToDoActions.BeginGetTodoAction),
            switchMap((action: any) => {
-             console.log(action)
             return this.todoService.getTodo(action.id).pipe(
                    map((data: Todo) => {
-                     console.log(data)
                        return ToDoActions.SuccessGetTodoAction({ payload: data });
                    }),
                    catchError((error: Error) => {
@@ -78,23 +76,26 @@ export class TodoEffects {
             mergeMap(action =>
                 this.todoService.updateTodo(action.payload).pipe(
                     map((data: Todo) => {
-                      console.log(data)
                         return ToDoActions.SuccessEditToDoAction({payload: data})
                     })
                 )
             )
         )
     )
-//     EditCompleteToDo$: Observable<Action> = createEffect(() =>
-//     this.action$.pipe(
-//         ofType(ToDoActions.BeginEditCompletedAction),
-//         mergeMap(action =>
-//             this.todoService.updateTodoComplete(action.payload).pipe(
-//                 map((data: Todo) => {
-//                     return ToDoActions.SuccessEditToDoAction({payload: data})
-//                 })
-//             )
-//         )
-//     )
-// )
+    EditCompleteToDo$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+        ofType(ToDoActions.BeginEditCompletedAction),
+        mergeMap(action =>
+            this.todoService.updateTodoComplete(action.payload).pipe(
+                map((data: Todo) => {
+                    console.log(data)
+                      return ToDoActions.SuccessEditCompletedAction({ payload: data });
+                  }),
+                  catchError((error: Error) => {
+                    return of(ToDoActions.ErrorToDoAction(error))
+                })
+            )
+        )
+    )
+)
 }

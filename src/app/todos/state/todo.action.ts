@@ -43,11 +43,11 @@ export const SuccessEditToDoAction = createAction(
   props<{ payload: Todo }>()
 );
 export const BeginEditCompletedAction = createAction(
-  '[ToDo] - Begin Edit ToDo',
+  '[ToDo] - Begin Edit Completed ToDo',
   props<{ payload: Todo }>()
 )
 export const SuccessEditCompletedAction = createAction(
-  '[ToDo] - Success Edit ToDo',
+  '[ToDo] - Success Edit Completed ToDo',
   props<{ payload: Todo }>()
 )
 
