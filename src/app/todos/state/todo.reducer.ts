@@ -33,7 +33,6 @@ const reducer = createReducer(
     return state;
   }),
   on(ToDoActions.BeginEditCompletedAction, (state: ToDoState, {payload}) => {
-debugger;
 state =  { ...state, ToDos: [...state.ToDos.filter((x) => x.id !== payload.id), payload], ToDoError: null };
     return state;
   })
