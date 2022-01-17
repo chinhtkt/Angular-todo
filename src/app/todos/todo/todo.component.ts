@@ -8,19 +8,18 @@ import ToDoState from "../../todos/state/todo.state";
 import { TodoService } from "../state/todo.httpservice";
 import {
   FormGroup,
-  FormControl,
   FormBuilder,
   Validators,
 } from "@angular/forms";
-import { getTodos } from "../state/todo.selector";
+import { getSelectedCompletedTodo, getTodos } from "../state/todo.selector";
 @Component({
   selector: "app-todo",
   templateUrl: "./todo.component.html",
   styleUrls: ["./todo.component.css"],
 })
 export class TodoComponent implements OnInit {
-  todos$: Observable<ToDoState>;
-  ToDoSubscription: Subscription;
+  todos$: Observable<Todo[]>;
+  isCompleted$: Observable<boolean>
   isCompleted?: boolean;
   toDo: Todo[];
   todoForm: FormGroup;
@@ -33,16 +32,15 @@ export class TodoComponent implements OnInit {
     private store: Store<{ todos: ToDoState }>,
     private todoService: TodoService
   ) {
-    this.todos$ = store.select('todos');
+    this.todos$ = store.select(getTodos);
+    this.isCompleted$ = store.select(getSelectedCompletedTodo)
   }
 
   ngOnInit(): void {
-    this.ToDoSubscription = this.todos$.pipe(
-      map(x => {
-        this.toDo = JSON.parse(JSON.stringify(x.ToDos))
-        this.todoError = x.ToDoError
-      })
-    ).subscribe();
+    this.todos$.subscribe((x) => {
+      console.log(x)
+      this.toDo = JSON.parse(JSON.stringify(x))
+    })
     this.todoForm = this.fb.group({
       task: ["", [Validators.required]],
       date: ["", [Validators.required]],
@@ -50,11 +48,6 @@ export class TodoComponent implements OnInit {
     this.getTodos();
   }
 
-  ngOnDestroy() {
-    if (this.ToDoSubscription) {
-      this.ToDoSubscription.unsubscribe();
-    }
-  }
 
   getTodos(): void {
     this.store.dispatch(ToDoActions.BeginGetToDosAction());
@@ -79,13 +72,7 @@ export class TodoComponent implements OnInit {
     this.store.dispatch(ToDoActions.BeginDeleteTodoAction({ id: SelectedId }));
   }
   completeTodo(id: number): void {
-    const newTask: Todo = {
-      id: this.toDo[id].id,
-      name: this.toDo[id].name,
-      completed: this.toDo[id].completed = !this.toDo[id].completed,
-      DoB: this.toDo[id].DoB,
-    }
-    this.store.dispatch(ToDoActions.BeginEditCompletedAction({ payload: newTask }));
+    this.store.dispatch(ToDoActions.SuccessEditCompletedAction({ payload: this.toDo[id] }));
     // this.todoService.updateTodoComplete(this.toDo[id]).subscribe();
     // this.store.dispatch(ToDoActions.BeginEditCompletedAction({ id: id }))
   }

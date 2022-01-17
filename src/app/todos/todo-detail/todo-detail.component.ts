@@ -16,18 +16,19 @@ import { getSelectedTodo } from '../state/todo.selector';
 })
 export class TodoDetailComponent implements OnInit {
   todo$: Observable<Todo | undefined>;
-  date: Date;
+  date?: Date;
+  id?: number
   todoForm!: FormGroup;
   submitted = false;
 
-  constructor(private router: Router,private route: ActivatedRoute, private todoService: TodoService, private location: Location, private fb: FormBuilder, private store: Store<ToDoState>) {
+  constructor(private router: Router,private route: ActivatedRoute, private location: Location, private fb: FormBuilder, private store: Store<ToDoState>) {
     this.todo$ = this.store.select(getSelectedTodo)
     this.store.dispatch(ToDoActions.BeginGetTodoAction({id: Number(this.route.snapshot.paramMap.get('id'))}));
     this.todo$.subscribe((x) => {
-      this.date = x!.DoB
+      this.date = x?.DoB
+      this.id = x?.id
       this.todoForm.patchValue({
         task: x?.name,
-        id: x?.id
       })
     })
    }
@@ -35,7 +36,6 @@ export class TodoDetailComponent implements OnInit {
   ngOnInit(): void {
     this.todoForm = this.fb.group(
       {
-      id: [''],
       task: ['', [Validators.required]],
     })
 
@@ -43,7 +43,7 @@ export class TodoDetailComponent implements OnInit {
   saveNewtodo(): void {
     this.submitted = true;
     const newTask: Todo = {
-      id: this.todoForm.value['id'],
+      id: this.id,
       name: this.todoForm.value['task'],
       DoB: this.date,
     }

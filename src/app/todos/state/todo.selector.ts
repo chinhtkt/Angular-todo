@@ -17,3 +17,8 @@ export const getSelectedTodo = createSelector(
   getTodoState,
   (state: ToDoState) => {return state.Todo}
 )
+
+export const getSelectedCompletedTodo = createSelector(
+  getTodoState,
+  (state: ToDoState) => {return state.isCompleted}
+)
